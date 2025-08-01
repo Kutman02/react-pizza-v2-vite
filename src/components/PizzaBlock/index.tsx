@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCartItemById } from '../../redux/cart/selectors';
 import type { CartItem } from '../../redux/cart/types';
-import { addItem } from '../../redux/cart/slice';
+import { addItem, removeItem } from '../../redux/cart/slice';
+import { FiPlus } from 'react-icons/fi';
 
 const typeNames = ['тонкое', 'традиционное'];
 
@@ -40,56 +41,76 @@ export const PizzaBlock: React.FC<PizzaBlockProps> = ({
       imageUrl,
       type: typeNames[activeType],
       size: sizes[activeSize],
-      count: 1, // При добавлении в корзину count = 1
+      count: 1,
     };
     dispatch(addItem(item));
   };
 
+  const onClickMinus = () => {
+    dispatch(removeItem(id));
+  };
+
   return (
-    <div className="pizza-block-wrapper">
-      <div className="pizza-block">
-        <Link key={id} to={`/pizza/${id}`}>
-          <img className="pizza-block__image" src={imageUrl} alt={title} />
-          <h4 className="pizza-block__title">{title}</h4>
-        </Link>
-        <div className="pizza-block__selector">
-          <ul>
-            {types.map((typeId) => (
-              <li
-                key={typeId}
-                onClick={() => setActiveType(typeId)}
-                className={activeType === typeId ? 'active' : ''}>
-                {typeNames[typeId]}
-              </li>
-            ))}
-          </ul>
-          <ul>
-            {sizes.map((size, i) => (
-              <li
-                key={size}
-                onClick={() => setActiveSize(i)}
-                className={activeSize === i ? 'active' : ''}>
-                {size} см.
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="pizza-block__bottom">
-          <div className="pizza-block__price">от {price} ₽</div>
-          <button onClick={onClickAdd} className="button button--outline button--add">
-            <svg
-              width="12"
-              height="12"
-              viewBox="0 0 12 12"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M10.8 4.8H7.2V1.2C7.2 0.5373 6.6627 0 6 0C5.3373 0 4.8 0.5373 4.8 1.2V4.8H1.2C0.5373 4.8 0 5.3373 0 6C0 6.6627 0.5373 7.2 1.2 7.2H4.8V10.8C4.8 11.4627 5.3373 12 6 12C6.6627 12 7.2 11.4627 7.2 10.8V7.2H10.8C11.4627 7.2 12 6.6627 12 6C12 5.3373 11.4627 4.8 10.8 4.8Z"
-                fill="white"
-              />
-            </svg>
-            <span>Добавить</span>
-            {addedCount > 0 && <i>{addedCount}</i>}
+    <div className="flex flex-col">
+      <Link to={`/pizza/${id}`} className="block">
+        <img
+          src={imageUrl}
+          alt={title}
+          className="w-full h-48 object-cover rounded-xl mb-3 hover:scale-105 transition-transform duration-300"
+        />
+        <h4 className="text-lg font-semibold text-gray-900">{title}</h4>
+      </Link>
+
+      {/* Выбор типа и размера */}
+      <div className="flex flex-wrap gap-2 mt-3 text-sm">
+        {types.map((typeId) => (
+          <button
+            key={typeId}
+            onClick={() => setActiveType(typeId)}
+            className={`px-3 py-1 rounded-full ${
+              activeType === typeId
+                ? 'bg-orange-500 text-white'
+                : 'bg-gray-100 text-gray-700 hover:bg-orange-100'
+            } transition`}>
+            {typeNames[typeId]}
+          </button>
+        ))}
+        {sizes.map((size, i) => (
+          <button
+            key={size}
+            onClick={() => setActiveSize(i)}
+            className={`px-3 py-1 rounded-full ${
+              activeSize === i
+                ? 'bg-orange-500 text-white'
+                : 'bg-gray-100 text-gray-700 hover:bg-orange-100'
+            } transition`}>
+            {size} см
+          </button>
+        ))}
+      </div>
+
+      {/* Цена и кнопки */}
+      <div className="mt-4 flex items-center justify-between">
+        <div className="text-base font-semibold text-gray-900">от {price} ₽</div>
+
+        <div className="flex items-center gap-2">
+          {addedCount > 0 && (
+            <button
+              onClick={onClickMinus}
+              className="w-8 h-8 text-xl text-orange-500 hover:bg-orange-100 rounded-full flex items-center justify-center">
+              −
+            </button>
+          )}
+          <button
+            onClick={onClickAdd}
+            className="flex items-center gap-1 bg-orange-500 text-white px-3 py-1.5 rounded-full hover:bg-orange-600 transition text-sm">
+            <FiPlus />
+            <span>В корзину</span>
+            {addedCount > 0 && (
+              <span className="bg-white text-orange-500 rounded-full px-2 text-xs font-bold">
+                {addedCount}
+              </span>
+            )}
           </button>
         </div>
       </div>
