@@ -10,10 +10,6 @@ type SortItem = {
   sortProperty: SortPropertyEnum;
 };
 
-type PopupClick = MouseEvent & {
-  path: Node[];
-};
-
 type SortPopupProps = {
   value: SortType;
 };
@@ -21,7 +17,6 @@ type SortPopupProps = {
 export const Sort: React.FC<SortPopupProps> = React.memo(({ value }) => {
   const dispatch = useDispatch();
   const sortRef = React.useRef<HTMLDivElement>(null);
-
   const [open, setOpen] = React.useState(false);
 
   const onClickListItem = (obj: SortItem) => {
@@ -31,29 +26,30 @@ export const Sort: React.FC<SortPopupProps> = React.memo(({ value }) => {
 
   React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      const _event = event as PopupClick;
-
-      if (sortRef.current && !_event.path.includes(sortRef.current)) {
+      const path = event.composedPath();
+      if (sortRef.current && !path.includes(sortRef.current)) {
         setOpen(false);
       }
     };
 
     document.body.addEventListener('click', handleClickOutside);
-
-    return () => document.body.removeEventListener('click', handleClickOutside);
+    return () => {
+      document.body.removeEventListener('click', handleClickOutside);
+    };
   }, []);
 
   return (
     <div ref={sortRef} className="relative select-none text-gray-700 font-semibold">
-      <div className="flex items-center gap-2 cursor-pointer" onClick={() => setOpen(!open)}>
+      <div
+        className="flex items-center gap-2 cursor-pointer"
+        onClick={() => setOpen((prev) => !prev)}>
         <svg
           className={`w-3 h-3 transition-transform ${open ? 'rotate-180' : ''}`}
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
           viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden="true">
+          xmlns="http://www.w3.org/2000/svg">
           <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
         </svg>
         <b>Сортировка по:</b>

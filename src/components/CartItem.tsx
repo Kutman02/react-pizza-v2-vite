@@ -40,12 +40,16 @@ export const CartItem: React.FC<CartItemProps> = ({
   };
 
   return (
-    <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-b py-6">
+    <div className="flex flex-col sm:flex-row items-center sm:justify-between gap-4 border-b py-6 w-full">
       {/* Изображение и описание */}
-      <div className="flex items-center gap-4 flex-1">
-        <img className="w-20 h-20 object-cover rounded shadow" src={imageUrl} alt={title} />
+      <div className="flex items-center gap-4 flex-1 w-full">
+        <img
+          className="w-20 h-20 object-cover rounded shadow shrink-0"
+          src={imageUrl}
+          alt={title}
+        />
         <div>
-          <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
+          <h3 className="text-base sm:text-lg font-semibold text-gray-800">{title}</h3>
           <p className="text-sm text-gray-500">
             {type}, {size} см
           </p>
@@ -61,7 +65,7 @@ export const CartItem: React.FC<CartItemProps> = ({
           aria-label="Уменьшить количество">
           <FiMinus />
         </button>
-        <span className="text-lg font-medium w-6 text-center">{count}</span>
+        <span className="text-base sm:text-lg font-medium w-6 text-center">{count}</span>
         <button
           onClick={onClickPlus}
           className="p-2 border border-gray-300 rounded-full text-orange-500 hover:bg-orange-100 transition"
@@ -71,12 +75,14 @@ export const CartItem: React.FC<CartItemProps> = ({
       </div>
 
       {/* Цена */}
-      <div className="text-lg font-semibold text-gray-800 w-24 text-center">{price * count} ₽</div>
+      <div className="text-base sm:text-lg font-semibold text-gray-800 w-24 text-center shrink-0">
+        {price * count} ₽
+      </div>
 
       {/* Кнопка удаления */}
       <button
         onClick={onClickRemove}
-        className="p-2 border border-gray-300 rounded-full text-gray-500 hover:bg-gray-200 transition"
+        className="p-2 border border-gray-300 rounded-full text-gray-500 hover:bg-gray-200 transition shrink-0"
         aria-label="Удалить товар">
         <FiX />
       </button>

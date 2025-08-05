@@ -13,10 +13,11 @@ type PizzaBlockProps = {
   title: string;
   price: number;
   imageUrl: string;
-  sizes: number[];
-  types: number[];
-  rating: number;
+  sizes?: number[];  // добавь вопросительный знак
+  types?: number[];
+  rating?: number;
 };
+
 
 export const PizzaBlock: React.FC<PizzaBlockProps> = ({
   id,
@@ -51,18 +52,18 @@ export const PizzaBlock: React.FC<PizzaBlockProps> = ({
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col bg-white p-4 rounded-2xl shadow hover:shadow-lg transition w-full max-w-sm mx-auto">
       <Link to={`/pizza/${id}`} className="block">
         <img
           src={imageUrl}
           alt={title}
-          className="w-full h-48 object-cover rounded-xl mb-3 hover:scale-105 transition-transform duration-300"
+          className="w-full h-48 sm:h-56 object-cover rounded-xl mb-3 hover:scale-105 transition-transform duration-300"
         />
-        <h4 className="text-lg font-semibold text-gray-900">{title}</h4>
+        <h4 className="text-lg sm:text-xl font-semibold text-gray-900 text-center">{title}</h4>
       </Link>
 
       {/* Выбор типа и размера */}
-      <div className="flex flex-wrap gap-2 mt-3 text-sm">
+      <div className="flex flex-wrap justify-center gap-2 mt-4 text-sm sm:text-base">
         {types.map((typeId) => (
           <button
             key={typeId}
@@ -90,29 +91,36 @@ export const PizzaBlock: React.FC<PizzaBlockProps> = ({
       </div>
 
       {/* Цена и кнопки */}
-      <div className="mt-4 flex items-center justify-between">
-        <div className="text-base font-semibold text-gray-900">от {price} ₽</div>
-
-        <div className="flex items-center gap-2">
-          {addedCount > 0 && (
-            <button
-              onClick={onClickMinus}
-              className="w-8 h-8 text-xl text-orange-500 hover:bg-orange-100 rounded-full flex items-center justify-center">
-              −
-            </button>
-          )}
+      <div className="mt-4 w-full">
+        {addedCount === 0 ? (
+          // Кнопка "Добавить"
           <button
             onClick={onClickAdd}
-            className="flex items-center gap-1 bg-orange-500 text-white px-3 py-1.5 rounded-full hover:bg-orange-600 transition text-sm">
+            className="w-full flex items-center justify-center gap-2 bg-orange-500 text-white py-2 rounded-full hover:bg-orange-600 text-base font-semibold transition-all shadow-md">
             <FiPlus />
-            <span>В корзину</span>
-            {addedCount > 0 && (
-              <span className="bg-white text-orange-500 rounded-full px-2 text-xs font-bold">
-                {addedCount}
-              </span>
-            )}
+            <span>Добавить</span>
           </button>
-        </div>
+        ) : (
+          // Блок управления количеством
+          <div className="flex items-center justify-between bg-orange-100 rounded-full px-4 py-2 w-full shadow-md">
+            {/* Кнопка "-" */}
+            <button
+              onClick={onClickMinus}
+              className="w-8 h-8 text-xl text-orange-500 font-bold hover:bg-orange-200 rounded-full flex items-center justify-center transition">
+              −
+            </button>
+
+            {/* Кол-во */}
+            <span className="text-base font-semibold text-gray-800">{addedCount} в корзине</span>
+
+            {/* Кнопка "+" */}
+            <button
+              onClick={onClickAdd}
+              className="w-8 h-8 text-xl text-orange-500 font-bold hover:bg-orange-200 rounded-full flex items-center justify-center transition">
+              +
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

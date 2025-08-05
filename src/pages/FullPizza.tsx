@@ -20,9 +20,7 @@ const FullPizza: React.FC = () => {
     (async () => {
       try {
         setLoading(true);
-        const { data } = await axios.get(
-          `https://688b10fd2a52cabb9f4fe451.mockapi.io/pizzaapi/${id}`,
-        );
+        const { data } = await axios.get(`http://localhost:3000/pizzas/${id}`);
         setPizza(data);
       } catch (err) {
         console.error(err);

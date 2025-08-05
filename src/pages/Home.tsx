@@ -7,8 +7,8 @@ import { useAppDispatch } from '../redux/store';
 import { selectFilter } from '../redux/filter/selectors';
 import { selectPizzaData } from '../redux/pizza/selectors';
 import { setCategoryId, setCurrentPage } from '../redux/filter/slice';
-import { fetchPizzas } from '../redux/pizza/asyncActions';
-import { type Pizza } from '../redux/pizza/types';
+import { fetchProducts } from '../redux/pizza/asyncActions';
+import { type MenuItem } from '../redux/pizza/types';
 
 const Home: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -34,7 +34,7 @@ const Home: React.FC = () => {
     const search = searchValue;
 
     dispatch(
-      fetchPizzas({
+      fetchProducts({
         sortBy,
         order,
         category,
@@ -50,7 +50,7 @@ const Home: React.FC = () => {
     getPizzas();
   }, [getPizzas]);
 
-  const pizzas = items.map((obj: Pizza) => <PizzaBlock key={obj.id} {...obj} />);
+  const pizzas = items.map((obj: MenuItem) => <PizzaBlock key={obj.id} {...obj} />);
   const skeletons = [...new Array(6)].map((_, index) => <Skeleton key={index} />);
 
   return (

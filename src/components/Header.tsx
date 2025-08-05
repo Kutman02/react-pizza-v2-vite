@@ -23,23 +23,30 @@ export const Header: React.FC = () => {
 
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
-      <div className="container mx-auto flex items-center justify-between py-4 px-6">
+      <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between py-4 px-4 sm:px-6 lg:px-8">
+        {/* Лого и текст */}
         <Link to="/" className="flex items-center gap-3">
           <img src={logoSvg} alt="Pizza logo" width={38} />
-          <div>
-            <h1 className="text-xl font-bold text-gray-900">KutGo</h1>
-            <p className="text-sm text-gray-600">самая вкусная еда с доставкой</p>
+          <div className="leading-tight hidden sm:block">
+            <h1 className="text-lg sm:text-xl font-bold text-gray-900">KutGo</h1>
+            <p className="text-xs sm:text-sm text-gray-600">самая вкусная еда с доставкой</p>
           </div>
         </Link>
 
-        {location.pathname !== '/cart' && <Search />}
+        {/* Поиск — скрыт на мобилках */}
+        {location.pathname !== '/cart' && (
+          <div className="hidden md:block flex-1 px-4">
+            <Search />
+          </div>
+        )}
 
+        {/* Корзина */}
         {location.pathname !== '/cart' && (
           <Link
             to="/cart"
-            className="flex items-center gap-3 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md transition-colors">
+            className="mt-4 sm:mt-0 flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-3 py-2 rounded-md transition-colors text-sm sm:text-base">
             <span className="font-semibold">{totalPrice} ₽</span>
-            <div className="w-px h-6 bg-white/50" />
+            <div className="w-px h-5 bg-white/50" />
             <svg
               width="18"
               height="18"
