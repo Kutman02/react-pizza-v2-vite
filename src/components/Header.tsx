@@ -5,13 +5,14 @@ import { useSelector } from 'react-redux';
 import logoSvg from '../assets/img/pizza-logo.svg';
 import { Search } from './';
 import { selectCart } from '../redux/cart/selectors';
+import type { CartItem } from '../redux/cart/types';
 
 export const Header: React.FC = () => {
   const { items, totalPrice } = useSelector(selectCart);
   const location = useLocation();
   const isMounted = React.useRef(false);
 
-  const totalCount = items.reduce((sum: number, item: any) => sum + item.count, 0);
+  const totalCount = items.reduce((sum: number, item: CartItem) => sum + item.count, 0);
 
   React.useEffect(() => {
     if (isMounted.current) {
@@ -26,7 +27,7 @@ export const Header: React.FC = () => {
       <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between py-4 px-4 sm:px-6 lg:px-8">
         {/* Лого и текст */}
         <Link to="/" className="flex items-center gap-3">
-          <img src={logoSvg} alt="Pizza logo" width={38} />
+          <img src={logoSvg} alt="Product logo" width={38} />
           <div className="leading-tight hidden sm:block">
             <h1 className="text-lg sm:text-xl font-bold text-gray-900">KutGo</h1>
             <p className="text-xs sm:text-sm text-gray-600">самая вкусная еда с доставкой</p>

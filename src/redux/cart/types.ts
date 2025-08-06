@@ -3,11 +3,12 @@ export type Product = {
   title: string;
   price: number;
   imageUrl: string;
-  type: 'pizza' | 'drink' | 'shaurma' | 'sweet';
-  sizes?: number[];
-  types?: number[];
-  volume?: number[];
-  rating?: number;
+  type: 'pizzas' | 'drinks' | 'shaurma' | 'sweets';
+  sizes: number[];
+  types: number[];
+  volume: number[];
+  rating: number;
+  category: number;
 };
 
 export type MenuItem = Product;
@@ -32,9 +33,9 @@ export type SearchProductParams = {
   category: string;
   search: string;
   currentPage: string;
-  productType?: string;
+  productType: 'pizzas' | 'drinks' | 'shaurma' | 'sweets';
 };
-// redux/cart/types.ts
+// types.ts
 export type CartItem = {
   id: string;
   title: string;
@@ -44,3 +45,7 @@ export type CartItem = {
   size: number;
   count: number;
 };
+export interface CartSliceState {
+  items: CartItem[];
+  totalPrice: number;
+}

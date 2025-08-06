@@ -8,18 +8,19 @@ import { FiPlus } from 'react-icons/fi';
 
 const typeNames = ['тонкое', 'традиционное'];
 
-type PizzaBlockProps = {
+type ProductBlockProps = {
   id: string;
   title: string;
   price: number;
   imageUrl: string;
-  sizes?: number[];  // добавь вопросительный знак
-  types?: number[];
-  rating?: number;
+  sizes: number[];
+  types: number[];
+  rating: number;
+  category: number;
+  volume?: number[];
 };
 
-
-export const PizzaBlock: React.FC<PizzaBlockProps> = ({
+export const ProductBlock: React.FC<ProductBlockProps> = ({
   id,
   title,
   price,
@@ -53,7 +54,7 @@ export const PizzaBlock: React.FC<PizzaBlockProps> = ({
 
   return (
     <div className="flex flex-col bg-white p-4 rounded-2xl shadow hover:shadow-lg transition w-full max-w-sm mx-auto">
-      <Link to={`/pizza/${id}`} className="block">
+      <Link to={`/pizzas/${id}`} className="block">
         <img
           src={imageUrl}
           alt={title}

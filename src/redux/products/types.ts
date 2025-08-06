@@ -3,11 +3,12 @@ export type Product = {
   title: string;
   price: number;
   imageUrl: string;
-  type: 'pizza' | 'drink' | 'shaurma' | 'sweet';
-  sizes?: number[]; // опционально
+  type: 'pizzas' | 'drinks' | 'shaurma' | 'sweets';
+  sizes?: number[];
   types?: number[];
   volume?: number[];
   rating?: number;
+  category: number;
 };
 
 export type MenuItem = {
@@ -19,4 +20,12 @@ export type MenuItem = {
   types: number[];
   category: number;
   rating: number;
+};
+export type SearchProductParams = {
+  sortBy: string;
+  order: string;
+  category: string;
+  search: string;
+  currentPage: string;
+  productType: 'pizzas' | 'drinks' | 'shaurma' | 'sweets';
 };

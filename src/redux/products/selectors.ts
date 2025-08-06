@@ -1,3 +1,3 @@
 import type { RootState } from '../store';
 
-export const selectPizzaData = (state: RootState) => state.pizza;
+export const selectProductData = (state: RootState) => state.products;
